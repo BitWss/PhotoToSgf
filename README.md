@@ -14,7 +14,7 @@ Convert a screenshot of a 19×19 Go (Baduk / Weiqi) board into a standard [SGF](
 - **SGF output** — generates a valid SGF file with `AB[]` / `AW[]` setup nodes and `PL[]` for player to play
 - **One-click analysis** — automatically opens the generated SGF in KaTrain or KataGo
 - **Persistent settings** — remembers your engine path and output directory between sessions
-- **Portable .exe** — can be compiled into a single standalone Windows executable
+- **Portable executable** — can be compiled into a single standalone binary for Windows, Linux, and macOS
 
 ## How It Works
 
@@ -26,21 +26,99 @@ Convert a screenshot of a 19×19 Go (Baduk / Weiqi) board into a standard [SGF](
 
 ## Installation
 
-### Run from source
+### Pre-built Releases
+
+Download the latest compiled binary for your platform from the [**Releases**](https://github.com/YOUR_USERNAME/GoScannerSGF/releases) page — no Python installation required.
+
+| Platform | File |
+|----------|------|
+| Windows  | `GoScannerSGF.exe` |
+| Linux    | `GoScannerSGF` |
+| macOS    | `GoScannerSGF` |
+
+### Run from Source
+
+Install Python 3.10+, then install the Python dependencies:
 
 ```bash
 pip install opencv-python numpy Pillow
+```
+
+**Linux** — `tkinter` and clipboard support are not bundled and must be installed separately:
+
+```bash
+# Debian / Ubuntu
+sudo apt install python3-tk xclip
+
+# Fedora / RHEL
+sudo dnf install python3-tkinter xclip
+
+# Arch Linux
+sudo pacman -S python-pillow tk xclip
+```
+
+**macOS** — `tkinter` is not included with Homebrew Python:
+
+```bash
+# Homebrew Python
+brew install python-tk
+
+# Alternatively, use the official python.org installer which bundles tkinter
+```
+
+Then launch the app on any platform:
+
+```bash
 python go_board_to_sgf.py
 ```
 
-### Build a standalone Windows .exe
+## Build Guide
+
+Build a standalone binary using [PyInstaller](https://pyinstaller.org). Install it first:
 
 ```bash
-pip install opencv-python numpy Pillow pyinstaller
+pip install pyinstaller
+```
+
+### Windows
+
+```bash
 pyinstaller --onefile --windowed --name GoScannerSGF go_board_to_sgf.py
 ```
 
-The executable will be at `dist/GoScannerSGF.exe` (~60–80 MB). No Python installation is needed on the target machine.
+Output: `dist/GoScannerSGF.exe`
+
+### Linux
+
+```bash
+pyinstaller --onefile --name GoScannerSGF go_board_to_sgf.py
+```
+
+Output: `dist/GoScannerSGF`
+
+Make it executable if needed:
+
+```bash
+chmod +x dist/GoScannerSGF
+```
+
+### macOS
+
+```bash
+pyinstaller --onefile --windowed --name GoScannerSGF go_board_to_sgf.py
+```
+
+Output: `dist/GoScannerSGF`
+
+To allow macOS to run the unsigned binary, you may need to clear the quarantine flag:
+
+```bash
+xattr -d com.apple.quarantine dist/GoScannerSGF
+```
+
+---
+
+> All binaries are approximately 60–80 MB. No Python installation is needed on the target machine. Build on the target OS — PyInstaller does not cross-compile.
 
 ## Usage
 
@@ -81,7 +159,8 @@ The tool generates a single SGF node with setup properties (no move history, sin
 - `opencv-python` (or `opencv-python-headless` for non-GUI use)
 - `numpy`
 - `Pillow` (for clipboard paste support)
-- `tkinter` (bundled with Python on Windows)
+- `tkinter` (bundled with Python on Windows and python.org macOS installer; install separately on Linux and Homebrew macOS)
+- `xclip` (Linux only, for clipboard paste)
 
 ## Related Projects
 
