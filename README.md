@@ -28,7 +28,7 @@ Convert a screenshot of a 19×19 Go (Baduk / Weiqi) board into a standard [SGF](
 
 ### Pre-built Releases
 
-Download the latest compiled binary for your platform from the [**Releases**]([https://github.com/YOUR_USERNAME/GoScannerSGF/releases](https://github.com/BitWss/PhotoToSgf/releases/tag/v1.0.0)) page — no Python installation required.
+Download the latest compiled binary for your platform from the [**Releases**](https://github.com/BitWss/PhotoToSgf/releases/tag/v1.0.0) page — no Python installation required.
 
 | Platform | File |
 |----------|------|
